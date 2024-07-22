@@ -6,6 +6,7 @@ from transformers import T5Tokenizer, T5ForConditionalGeneration
 from transformers import pipeline
 import torch
 import base64
+import streamlit_shadcn_ui as ui
 
 checkpoint = "MBZUAI/LaMini-Flan-T5-248M"
 tokenizer = T5Tokenizer.from_pretrained(checkpoint)
