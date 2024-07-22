@@ -72,6 +72,8 @@ def main():
                 st.info("Summarization Complete")
                 print(summary)
                 st.success(summary)
+                ui.link_button(text="My LinkedIN", url="https://linkedin.com/harshadsheelwant", key="link_btn")
+                ui.link_button(text="My Github", url="https://github.com/harshadsheelwant", key="link_btn")
 
 
 if __name__ == '__main__':
