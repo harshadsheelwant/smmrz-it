@@ -54,8 +54,8 @@ st.set_page_config(layout="wide")
 
 def main():
     st.title("Small PDF Summarizer App")
-    ui.link_button(text="My LinkedIN", url="https://linkedin.com/harshadsheelwant", key="link_btn1")
-    ui.link_button(text="My Github", url="https://github.com/harshadsheelwant", key="link_btn2")
+    ui.link_button(text="My LinkedIN", url="https://www.linkedin.com/in/harshadsheelwant/", key="link_btn1", className="bg-gray-100 text-black")
+    ui.link_button(text="My Github", url="https://github.com/harshadsheelwant", key="link_btn2", className="bg-gray-100 text-black")
 
     uploaded_file = st.file_uploader("Upload your PDF file", type=['pdf'])
 
