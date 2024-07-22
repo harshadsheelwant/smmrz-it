@@ -7,7 +7,7 @@ from transformers import pipeline
 import torch
 import base64
 
-checkpoint = 'MBZUAI/LaMini-Flan-T5-248M'
+checkpoint = "MBZUAI/LaMini-Flan-T5-248M"
 tokenizer = T5Tokenizer.from_pretrained(checkpoint)
 base_model = T5ForConditionalGeneration.from_pretrained(checkpoint, offload_folder = 'offload', device_map = 'auto', torch_dtype = torch.float32)
 
@@ -16,7 +16,7 @@ base_model = T5ForConditionalGeneration.from_pretrained(checkpoint, offload_fold
 def preprocess(file):
     loader = PyPDFLoader(file)
     pages = loader.load_and_split()
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=5000, chunk_overlap=500)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     texts = text_splitter.split_documents(pages)
     final_texts = ""
     for text in texts:
