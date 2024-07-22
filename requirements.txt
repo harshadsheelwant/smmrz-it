@@ -6,3 +6,4 @@ torch
 pypdf
 accelerate
 sentencepiece
+streamlit_shadcn_ui
