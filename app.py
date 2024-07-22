@@ -54,13 +54,13 @@ st.set_page_config(layout="wide")
 
 def main():
     st.title("Small PDF Summarizer App")
-    ui.link_button(text="My LinkedIN", url="https://www.linkedin.com/in/harshadsheelwant/", key="link_btn1", className="bg-gray-100 text-black")
-    ui.link_button(text="My Github", url="https://github.com/harshadsheelwant", key="link_btn2", className="bg-gray-100 text-black")
+    ui.link_button(text="My LinkedIN", url="https://www.linkedin.com/in/harshadsheelwant/", key="link_btn1", class_name="bg-gray-100 text-black")
+    ui.link_button(text="My Github", url="https://github.com/harshadsheelwant", key="link_btn2", class_name="bg-gray-100 text-black")
 
     uploaded_file = st.file_uploader("Upload your PDF file", type=['pdf'])
 
     if uploaded_file is not None:
-        if ui.button(text="Summarize", key="styled_btn_tailwind", className="bg-orange-500 text-white"):
+        if ui.button(text="Summarize", key="styled_btn_tailwind", class_name="bg-orange-500 text-white"):
             col1, col2 = st.columns(2)
             filepath = "data/"+uploaded_file.name
             with open(filepath, "wb") as temp_file:
