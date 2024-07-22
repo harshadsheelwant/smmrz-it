@@ -1,0 +1,8 @@
+streamlit
+langchain
+langchain_community
+transformers
+torch
+pypdf
+accelerate
+sentencepiece
