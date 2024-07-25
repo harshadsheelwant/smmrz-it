@@ -85,7 +85,6 @@ st.set_page_config(
 def extract_text_from_website(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
-    web_title = soup.title.string.strip()
     web_text = soup.get_text(separator=' ')
     web_text = "\n".join(line for line in web_text.splitlines() if line.strip())
     return web_text
