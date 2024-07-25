@@ -128,11 +128,13 @@ def main():
 
         if ui.button(text="Summarize Website", key="styled_btn_tailwind_2", class_name="bg-orange-500 text-white"):
             extracted_text = extract_text_from_website(url)
-            extracted_text = extracted_text[:1000]
+            extracted_text = extracted_text[:5000]
             web_summary = llm_pipeline_web(extracted_text)
             st.info(("Summarization Complete"))
             print(web_summary)
             st.success(web_summary)
+
+            st.write("This feature is still under development, it converts the text as it is present in the input website, trucates it and summarizes the text using a LLM model.")
 
 
     button(username="harshadsheelwant", floating=False, width=221)                
