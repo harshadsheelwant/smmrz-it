@@ -92,9 +92,6 @@ def main():
 
     input_notpdf = st.text_input(
         "Enter some text 👇",
-        label_visibility=st.session_state.visibility,
-        disabled=st.session_state.disabled,
-        placeholder=st.session_state.placeholder,
     )
 
     if input_notpdf is not None:
