@@ -1,4 +1,7 @@
 import streamlit as st
+import re
+import requests
+from bs4 import BeautifulSoup
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import PyPDFLoader, DirectoryLoader
 from langchain.chains import load_summarize_chain
