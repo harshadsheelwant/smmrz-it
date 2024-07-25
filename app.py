@@ -24,7 +24,7 @@ def preprocess(file):
         final_texts += text.page_content
     return final_texts
 
-def llm_pipeline_pdf(filepath):
+def llm_pipeline(filepath):
   pipe_sum = pipeline('summarization',
                       model= base_model,
                       tokenizer=tokenizer,
@@ -56,17 +56,6 @@ st.set_page_config(
 )
 
 
-def notpdf(input_notpdf):
-  pipe_sum = pipeline('summarization',
-                      model= base_model,
-                      tokenizer=tokenizer,
-                      max_length = 500,
-                      min_length = 50)
-  input_text = preprocess(filepath)
-  notpdf_summary = pipe_sum(input_notpdf)
-  notpdf_summary = notpdf_summary[0]['summary_text']
-  return notpdf_summary
-
 def main():
     st.title("SummarizeIt📄")
     ui.link_button(text="My LinkedIN", url="https://www.linkedin.com/in/harshadsheelwant/", key="link_btn1", class_name="bg-black hover:bg-blue-500 text-white font-bold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded")
@@ -85,20 +74,23 @@ def main():
                 pdf_view = displayPDF(filepath)
 
             with col2:
-                pdf_summary = llm_pipeline_pdf(filepath)
+                pdf_summary = llm_pipeline(filepath)
                 st.info("Summarization Complete")
                 print(pdf_summary)
                 st.success(pdf_summary)
 
     input_notpdf = st.text_input(
         "Enter some text 👇",
+        label_visibility=st.session_state.visibility,
+        disabled=st.session_state.disabled,
+        placeholder=st.session_state.placeholder,
     )
 
     if input_notpdf is not None:
 
         if ui.button(text="Summarize Text", key="styled_btn_tailwind", class_name="bg-orange-500 text-white"):
-            notpdf_summary = notpdf(input_notpdf)
-            st.info(("Summarization Complete"))
+            notpdf_summary = llm_pipeline(input_notpdf)
+            st.info(("Summarization"))
             print(notpdf_summary)
             st.success(notpdf_summary)
 
