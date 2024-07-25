@@ -54,7 +54,7 @@ def llm_pipeline_web(extracted_text):
                       model= base_model,
                       tokenizer=tokenizer,
                       seq = seq[:512],
-                      max_length = 500,
+                      max_length = 3000,
                       min_length = 50)
   web_summary = pipe_sum_web(extracted_text)
   web_summary = web_summary[0]['summary_text']
