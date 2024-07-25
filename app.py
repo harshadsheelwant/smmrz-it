@@ -35,6 +35,16 @@ def llm_pipeline(filepath):
   pdf_summary = pdf_summary[0]['summary_text']
   return pdf_summary
 
+def llm_pipeline_notpdf(input_notpdf):
+  pipe_sum_notpdf = pipeline('summarization',
+                      model= base_model,
+                      tokenizer=tokenizer,
+                      max_length = 500,
+                      min_length = 50)
+  notpdf_summary = pipe_sum_notpdf(input_notpdf)
+  notpdf_summary = notpdf_summary[0]['notpdf_summary_text']
+  return notpdf_summary
+
 @st.cache_data
 #function to display the PDF of a given file
 def displayPDF(file):
@@ -86,7 +96,7 @@ def main():
     if input_notpdf is not None:
 
         if ui.button(text="Summarize Text", key="styled_btn_tailwind", class_name="bg-orange-500 text-white"):
-            notpdf_summary = llm_pipeline(input_notpdf)
+            notpdf_summary = llm_pipeline_notpdf(input_notpdf)
             st.info(("Summarization"))
             print(notpdf_summary)
             st.success(notpdf_summary)
