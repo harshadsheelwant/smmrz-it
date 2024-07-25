@@ -46,6 +46,16 @@ def llm_pipeline_notpdf(input_notpdf):
   notpdf_summary = notpdf_summary[0]['summary_text']
   return notpdf_summary
 
+  def llm_pipeline_web(extracted_text):
+  pipe_sum_web = pipeline('summarization',
+                      model= base_model,
+                      tokenizer=tokenizer,
+                      max_length = 500,
+                      min_length = 50)
+  web_summary = pipe_sum_web(extracted_text)
+  web_summary = web_summary[0]['summary_text']
+  return web_summary
+
 
 @st.cache_data
 #function to display the PDF of a given file
@@ -68,8 +78,17 @@ st.set_page_config(
 )
 
 
+def extract_text_from_website(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    web_title = soup.title.string.strip()
+    web_text = soup.get_text(separator=' ')
+    web_text = "\n".join(line for line in text.splitlines() if line.strip())
+    return web_text
+
+
 def main():
-    st.title("SummarizeIt📄")
+    st.title("Summarize-It📄")
     
 
     uploaded_file = st.file_uploader("Upload your PDF file", type=['pdf'])
@@ -91,8 +110,7 @@ def main():
                 st.success(pdf_summary)
 
     input_notpdf = st.text_input(
-        "Enter some text 👇"
-    )
+        "Enter some text 👇")
 
     if input_notpdf is not None:
 
@@ -101,6 +119,18 @@ def main():
             st.info(("Summarization Complete"))
             print(notpdf_summary)
             st.success(notpdf_summary)
+
+    url = st.text_input("Enter the URL of the website 👇")
+
+    if url is not None:
+
+        if ui.button(text="Summarize Website", key="styled_btn_tailwind_2", class_name="bg-orange-500 text-white"):
+            extracted_text = extract_text_from_website(url)
+            web_summary = llm_pipeline_web(extracted_text)
+            st.info(("Summarization Complete"))
+            print(web_summary)
+            st.success(web_summary)
+
 
     button(username="harshadsheelwant", floating=False, width=221)                
     ui.link_button(text="My LinkedIN", url="https://www.linkedin.com/in/harshadsheelwant/", key="link_btn1", class_name="bg-black hover:bg-blue-500 text-white font-bold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded")
