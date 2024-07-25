@@ -24,16 +24,16 @@ def preprocess(file):
         final_texts += text.page_content
     return final_texts
 
-def llm_pipeline(filepath):
+def llm_pipeline_pdf(filepath):
   pipe_sum = pipeline('summarization',
                       model= base_model,
                       tokenizer=tokenizer,
                       max_length = 500,
                       min_length = 50)
   input_text = preprocess(filepath)
-  summary = pipe_sum(input_text)
-  summary = summary[0]['summary_text']
-  return summary
+  pdf_summary = pipe_sum(input_text)
+  pdf_summary = pdf_summary[0]['summary_text']
+  return pdf_summary
 
 @st.cache_data
 #function to display the PDF of a given file
@@ -56,15 +56,26 @@ st.set_page_config(
 )
 
 
+def llm_pipeline_notpdf(input_notpdf):
+  pipe_sum = pipeline('summarization',
+                      model= base_model,
+                      tokenizer=tokenizer,
+                      max_length = 500,
+                      min_length = 50)
+  input_text = preprocess(filepath)
+  notpdf_summary = pipe_sum(input_notpdf)
+  notpdf_summary = notpdf_summary[0]['summary_text']
+  return notpdf_summary
+
 def main():
-    st.title("Small PDF Summarizer App 📄")
+    st.title("SummarizeIt📄")
     ui.link_button(text="My LinkedIN", url="https://www.linkedin.com/in/harshadsheelwant/", key="link_btn1", class_name="bg-black hover:bg-blue-500 text-white font-bold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded")
     ui.link_button(text="My Github", url="https://github.com/harshadsheelwant", key="link_btn2", class_name="bg-black shadow-cyan-500/50 hover:bg-blue-500 text-white font-bold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded")
 
     uploaded_file = st.file_uploader("Upload your PDF file", type=['pdf'])
 
     if uploaded_file is not None:
-        if ui.button(text="Summarize", key="styled_btn_tailwind", class_name="bg-orange-500 text-white"):
+        if ui.button(text="Summarize PDF", key="styled_btn_tailwind", class_name="bg-orange-500 text-white"):
             col1, col2 = st.columns(2)
             filepath = "data/"+uploaded_file.name
             with open(filepath, "wb") as temp_file:
@@ -74,11 +85,27 @@ def main():
                 pdf_view = displayPDF(filepath)
 
             with col2:
-                summary = llm_pipeline(filepath)
+                pdf_summary = llm_pipeline_pdf(filepath)
                 st.info("Summarization Complete")
-                print(summary)
-                st.success(summary)
-                
+                print(pdf_summary)
+                st.success(pdf_summary)
+
+    input_notpdf = st.text_input(
+        "Enter some text 👇",
+        label_visibility=st.session_state.visibility,
+        disabled=st.session_state.disabled,
+        placeholder=st.session_state.placeholder,
+    )
+
+    if input_notpdf is not None:
+
+        if ui.button(text="Summarize Text", key="styled_btn_tailwind", class_name="bg-orange-500 text-white"):
+            notpdf_summary = llm_pipeline(input_notpdf)
+            st.info(("Summarization Complete"))
+            print(notpdf_summary)
+            st.success(notpdf_summary)
+
+                    
 
 
 if __name__ == '__main__':
