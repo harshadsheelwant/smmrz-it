@@ -58,7 +58,7 @@ def displayPDF(file):
     pdf_display = F'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="600" type="application/pdf"></iframe>'
 
     # Displaying File
-    st.markdown(pdf_display)
+    st.markdown(pdf_display, unsafe_allow_html=False)
 
 #streamlit code
 st.set_page_config(
