@@ -75,7 +75,7 @@ def displayPDF(file):
 
 #streamlit code
 st.set_page_config(
-    page_title="Small PDF Summarizer",
+    page_title="Summarize-It",
     page_icon="📄",
     layout="wide",
 )
