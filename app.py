@@ -7,6 +7,7 @@ from transformers import pipeline
 import torch
 import base64
 import streamlit_shadcn_ui as ui
+from streamlit_extras.buy_me_a_coffee import button
 
 checkpoint = "MBZUAI/LaMini-Flan-T5-248M"
 tokenizer = T5Tokenizer.from_pretrained(checkpoint)
@@ -69,8 +70,7 @@ st.set_page_config(
 
 def main():
     st.title("SummarizeIt📄")
-    ui.link_button(text="My LinkedIN", url="https://www.linkedin.com/in/harshadsheelwant/", key="link_btn1", class_name="bg-black hover:bg-blue-500 text-white font-bold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded")
-    ui.link_button(text="My Github", url="https://github.com/harshadsheelwant", key="link_btn2", class_name="bg-black shadow-cyan-500/50 hover:bg-blue-500 text-white font-bold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded")
+    
 
     uploaded_file = st.file_uploader("Upload your PDF file", type=['pdf'])
 
@@ -98,12 +98,13 @@ def main():
 
         if ui.button(text="Summarize Text", key="styled_btn_tailwind", class_name="bg-orange-500 text-white"):
             notpdf_summary = llm_pipeline_notpdf(input_notpdf)
-            st.info(("Summarization"))
+            st.info(("Summarization Complete"))
             print(notpdf_summary)
             st.success(notpdf_summary)
 
-                    
-
+    button(username="harshadsheelwant", floating=False, width=221)                
+    ui.link_button(text="My LinkedIN", url="https://www.linkedin.com/in/harshadsheelwant/", key="link_btn1", class_name="bg-black hover:bg-blue-500 text-white font-bold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded")
+    ui.link_button(text="My Github", url="https://github.com/harshadsheelwant", key="link_btn2", class_name="bg-black shadow-cyan-500/50 hover:bg-blue-500 text-white font-bold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded")
 
 if __name__ == '__main__':
   main()
