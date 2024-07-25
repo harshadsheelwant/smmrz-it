@@ -7,3 +7,7 @@ pypdf
 accelerate
 sentencepiece
 streamlit_shadcn_ui
+requests 
+beautifulsoup4 
+PyPDF2 
+reportlab
