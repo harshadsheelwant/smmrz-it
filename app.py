@@ -53,8 +53,7 @@ def llm_pipeline_web(extracted_text):
   pipe_sum_web = pipeline('summarization',
                       model= base_model,
                       tokenizer=tokenizer,
-                      seq = seq[:512],
-                      max_length = 3000,
+                      max_length = 500,
                       min_length = 50)
   web_summary = pipe_sum_web(extracted_text)
   web_summary = web_summary[0]['summary_text']
@@ -129,6 +128,7 @@ def main():
 
         if ui.button(text="Summarize Website", key="styled_btn_tailwind_2", class_name="bg-orange-500 text-white"):
             extracted_text = extract_text_from_website(url)
+            extracted_text = extracted_text[:500]
             web_summary = llm_pipeline_web(extracted_text)
             st.info(("Summarization Complete"))
             print(web_summary)
