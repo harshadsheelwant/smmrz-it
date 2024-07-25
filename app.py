@@ -75,7 +75,7 @@ def main():
     uploaded_file = st.file_uploader("Upload your PDF file", type=['pdf'])
 
     if uploaded_file is not None:
-        if ui.button(text="Summarize PDF", key="styled_btn_tailwind", class_name="bg-orange-500 text-white"):
+        if ui.button(text="Summarize PDF", key="styled_btn_tailwind_1", class_name="bg-orange-500 text-white"):
             col1, col2 = st.columns(2)
             filepath = "data/"+uploaded_file.name
             with open(filepath, "wb") as temp_file:
