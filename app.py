@@ -97,7 +97,7 @@ def main():
     if input_notpdf is not None:
 
         if ui.button(text="Summarize Text", key="styled_btn_tailwind", class_name="bg-orange-500 text-white"):
-            notpdf_summary = llm_pipeline(input_notpdf)
+            notpdf_summary = llm_pipeline_notpdf(input_notpdf)
             st.info(("Summarization Complete"))
             print(notpdf_summary)
             st.success(notpdf_summary)
