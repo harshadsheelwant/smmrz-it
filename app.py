@@ -128,7 +128,7 @@ def main():
 
         if ui.button(text="Summarize Website", key="styled_btn_tailwind_2", class_name="bg-orange-500 text-white"):
             extracted_text = extract_text_from_website(url)
-            extracted_text = extracted_text[:50]
+            extracted_text = extracted_text[:1000]
             web_summary = llm_pipeline_web(extracted_text)
             st.info(("Summarization Complete"))
             print(web_summary)
