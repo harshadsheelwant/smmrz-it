@@ -136,7 +136,11 @@ def main():
             print(web_summary)
             st.success(web_summary)
 
-            st.write("This feature is still under development, it converts the text as it is present in the input website, trucates it and summarizes the text using a LLM model.")
+            st.markdown(
+                """
+                This feature is still under development, it converts the text as it is present in the input website, trucates it and summarizes the text using a 'LLM model'.
+                """
+            )
 
     annotated_text("The summarization by this application is done using ", annotation("LaMini-Flan-T5-248M", " Summarization Pipeline", color="#98e2cf", border="1px dashed red"))
     button(username="harshadsheelwant", floating=False, width=221)                
