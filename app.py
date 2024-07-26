@@ -11,6 +11,7 @@ import torch
 import base64
 import streamlit_shadcn_ui as ui
 from streamlit_extras.buy_me_a_coffee import button
+from annotated_text import annotated_text, annotation
 
 checkpoint = "MBZUAI/LaMini-Flan-T5-248M"
 tokenizer = T5Tokenizer.from_pretrained(checkpoint)
@@ -137,7 +138,7 @@ def main():
 
             st.write("This feature is still under development, it converts the text as it is present in the input website, trucates it and summarizes the text using a LLM model.")
 
-
+    annotated_text("The summarization by this application is done using", annotation(" LaMini-Flan-T5-248M", " Summarization Pipeline", color="#8ef", border="1px dashed red"))
     button(username="harshadsheelwant", floating=False, width=221)                
     ui.link_button(text="My LinkedIN", url="https://www.linkedin.com/in/harshadsheelwant/", key="link_btn1", class_name="bg-black hover:bg-blue-500 text-white font-bold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded")
     ui.link_button(text="My Github", url="https://github.com/harshadsheelwant", key="link_btn2", class_name="bg-black shadow-cyan-500/50 hover:bg-blue-500 text-white font-bold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded")
