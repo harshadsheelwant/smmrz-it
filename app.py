@@ -12,7 +12,6 @@ import base64
 import streamlit_shadcn_ui as ui
 from streamlit_extras.buy_me_a_coffee import button
 from annotated_text import annotated_text, annotation
-import os
 
 checkpoint = "MBZUAI/LaMini-Flan-T5-248M"
 tokenizer = T5Tokenizer.from_pretrained(checkpoint)
@@ -20,12 +19,15 @@ base_model = T5ForConditionalGeneration.from_pretrained(checkpoint, offload_fold
 
 
 
-def file_preprocessing(file_path):
-    loader = PyPDFLoader(file_path)
+def file_preprocessing(file):
+    loader =  PyPDFLoader(file)
     pages = loader.load_and_split()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     texts = text_splitter.split_documents(pages)
-    final_texts = "".join([text.page_content for text in texts])
+    final_texts = ""
+    for text in texts:
+        print(text)
+        final_texts = final_texts + text.page_content
     return final_texts
 
 def llm_pipeline(filepath):
@@ -61,10 +63,16 @@ def llm_pipeline_web(extracted_text):
 
 
 @st.cache_data
+#function to display the PDF of a given file
 def displayPDF(file):
+    # Opening file from file path
     with open(file, "rb") as f:
         base64_pdf = base64.b64encode(f.read()).decode('utf-8')
-    pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="600" type="application/pdf"></iframe>'
+
+    # Embedding PDF in HTML
+    pdf_display = F'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="600" type="application/pdf"></iframe>'
+
+    # Displaying File
     st.markdown(pdf_display, unsafe_allow_html=True)
 
 #streamlit code
@@ -85,19 +93,24 @@ def extract_text_from_website(url):
 
 def main():
     st.title("Summarize-It📄")
+    
 
     uploaded_file = st.file_uploader("Upload your PDF file", type=['pdf'])
 
     if uploaded_file is not None:
         if ui.button(text="Summarize PDF", key="styled_btn_tailwind_1", class_name="bg-orange-500 text-white"):
             col1, col2 = st.columns(2)
+            filepath = "data/"+uploaded_file.name
+            with open(filepath, "wb") as temp_file:
+                temp_file.write(uploaded_file.read())
             with col1:
                 st.info("Uploaded File")
-                displayPDF(uploaded_file)
+                pdf_view = displayPDF(filepath)
 
             with col2:
-                pdf_summary = llm_pipeline(uploaded_file)
+                pdf_summary = llm_pipeline(filepath)
                 st.info("Summarization Complete")
+                print(pdf_summary)
                 st.success(pdf_summary)
 
     input_notpdf = st.text_input(
