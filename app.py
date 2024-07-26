@@ -21,7 +21,7 @@ base_model = T5ForConditionalGeneration.from_pretrained(checkpoint, offload_fold
 def preprocess(file):
     loader = PyPDFLoader(file)
     pages = loader.load_and_split()
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=5000, chunk_overlap=1000)
     texts = text_splitter.split_documents(pages)
     final_texts = ""
     for text in texts:
@@ -71,7 +71,7 @@ def displayPDF(file):
     pdf_display = F'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="600" type="application/pdf"></iframe>'
 
     # Displaying File
-    st.markdown(pdf_display, unsafe_allow_html=True)
+    st.markdown(pdf_display, unsafe_allow_html=False)
 
 #streamlit code
 st.set_page_config(
