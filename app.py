@@ -93,24 +93,19 @@ def extract_text_from_website(url):
 
 def main():
     st.title("Summarize-It📄")
-    
 
     uploaded_file = st.file_uploader("Upload your PDF file", type=['pdf'])
 
     if uploaded_file is not None:
         if ui.button(text="Summarize PDF", key="styled_btn_tailwind_1", class_name="bg-orange-500 text-white"):
             col1, col2 = st.columns(2)
-            filepath = "data/"+uploaded_file.name
-            with open(filepath, "wb") as temp_file:
-                temp_file.write(uploaded_file.read())
             with col1:
                 st.info("Uploaded File")
-                pdf_view = displayPDF(filepath)
+                displayPDF(uploaded_file)
 
             with col2:
-                pdf_summary = llm_pipeline(filepath)
+                pdf_summary = llm_pipeline(uploaded_file)
                 st.info("Summarization Complete")
-                print(pdf_summary)
                 st.success(pdf_summary)
 
     input_notpdf = st.text_input(
