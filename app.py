@@ -20,15 +20,12 @@ base_model = T5ForConditionalGeneration.from_pretrained(checkpoint, offload_fold
 
 
 
-def file_preprocessing(file):
-    loader =  PyPDFLoader(file)
+def file_preprocessing(file_path):
+    loader = PyPDFLoader(file_path)
     pages = loader.load_and_split()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     texts = text_splitter.split_documents(pages)
-    final_texts = ""
-    for text in texts:
-        print(text)
-        final_texts = final_texts + text.page_content
+    final_texts = "".join([text.page_content for text in texts])
     return final_texts
 
 def llm_pipeline(filepath):
