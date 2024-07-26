@@ -12,6 +12,7 @@ import base64
 import streamlit_shadcn_ui as ui
 from streamlit_extras.buy_me_a_coffee import button
 from annotated_text import annotated_text, annotation
+import os
 
 checkpoint = "MBZUAI/LaMini-Flan-T5-248M"
 tokenizer = T5Tokenizer.from_pretrained(checkpoint)
