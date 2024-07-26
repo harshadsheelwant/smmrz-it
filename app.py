@@ -18,14 +18,15 @@ base_model = T5ForConditionalGeneration.from_pretrained(checkpoint, offload_fold
 
 
 
-def preprocess(file):
-    loader = PyPDFLoader(file)
+def file_preprocessing(file):
+    loader =  PyPDFLoader(file)
     pages = loader.load_and_split()
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=5000, chunk_overlap=1000)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     texts = text_splitter.split_documents(pages)
     final_texts = ""
     for text in texts:
-        final_texts += text.page_content
+        print(text)
+        final_texts = final_texts + text.page_content
     return final_texts
 
 def llm_pipeline(filepath):
@@ -34,7 +35,7 @@ def llm_pipeline(filepath):
                       tokenizer=tokenizer,
                       max_length = 500,
                       min_length = 50)
-  input_text = preprocess(filepath)
+  input_text = file_preprocessing(filepath)
   pdf_summary = pipe_sum(input_text)
   pdf_summary = pdf_summary[0]['summary_text']
   return pdf_summary
@@ -71,7 +72,7 @@ def displayPDF(file):
     pdf_display = F'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="600" type="application/pdf"></iframe>'
 
     # Displaying File
-    st.markdown(pdf_display, unsafe_allow_html=False)
+    st.markdown(pdf_display, unsafe_allow_html=True)
 
 #streamlit code
 st.set_page_config(
