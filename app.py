@@ -42,7 +42,7 @@ def file_preprocessing(file):
 def llm_pipeline_pdf(filepath):
   pipe_sum = pipeline("summarization")
   input_text = file_preprocessing(filepath)
-  input_text = input_text[:15000]
+  input_text = input_text[:1500]
   pdf_summary = pipe_sum(input_text, max_length=50000, min_length=50, do_sample=False)
   pdf_summary = pdf_summary[0]['summary_text']
   return pdf_summary
