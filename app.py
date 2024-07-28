@@ -42,19 +42,19 @@ def file_preprocessing(file):
 def llm_pipeline_pdf(filepath):
   pipe_sum = pipeline("summarization")
   input_text = file_preprocessing(filepath)
-  pdf_summary = pipe_sum(input_text, max_length=max_length, min_length=50, do_sample=False)
+  pdf_summary = pipe_sum(input_text, max_length=50000, min_length=50, do_sample=False)
   pdf_summary = pdf_summary[0]['summary_text']
   return pdf_summary
 
 def llm_pipeline_notpdf(input_notpdf):
   pipe_sum_notpdf = pipeline("summarization")
-  notpdf_summary = pipe_sum_notpdf(input_notpdf, max_length=max_length, min_length=50, do_sample=False)
+  notpdf_summary = pipe_sum_notpdf(input_notpdf, max_length=50000, min_length=50, do_sample=False)
   notpdf_summary = notpdf_summary[0]['summary_text']
   return notpdf_summary
 
 def llm_pipeline_web(extracted_text):
   pipe_sum_web = pipeline("summarization")
-  web_summary = pipe_sum_web(extracted_text, max_length=max_length, min_length=50, do_sample=False)
+  web_summary = pipe_sum_web(extracted_text, max_length=50000, min_length=50, do_sample=False)
   web_summary = web_summary[0]['summary_text']
   return web_summary
 
@@ -127,7 +127,7 @@ def main():
 
         if ui.button(text="Summarize Website", key="styled_btn_tailwind_2", class_name="bg-orange-500 text-white"):
             extracted_text = extract_text_from_website(url)
-            extracted_text = extracted_text[:1500]
+            extracted_text = extracted_text[:15000]
             web_summary = llm_pipeline_web(extracted_text)
             st.info(("Summarization Complete"))
             print(web_summary)
