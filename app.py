@@ -16,7 +16,7 @@ from annotated_text import annotated_text, annotation
 
 checkpoint = "sshleifer/distilbart-cnn-12-6"
 tokenizer = BartTokenizer.from_pretrained(checkpoint)
-base_model = BartForConditionalGeneration.from_pretrained(checkpoint, device_map = 'auto')
+base_model = BartForConditionalGeneration.from_pretrained(checkpoint)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 base_model.to(device)
