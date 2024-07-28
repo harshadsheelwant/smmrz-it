@@ -42,6 +42,7 @@ def file_preprocessing(file):
 def llm_pipeline_pdf(filepath):
   pipe_sum = pipeline("summarization")
   input_text = file_preprocessing(filepath)
+  input_text = input_text[:15000]
   pdf_summary = pipe_sum(input_text, max_length=50000, min_length=50, do_sample=False)
   pdf_summary = pdf_summary[0]['summary_text']
   return pdf_summary
@@ -105,6 +106,7 @@ def main():
                 pdf_view = displayPDF(filepath)
 
             with col2:
+            
                 pdf_summary = llm_pipeline_pdf(filepath)
                 st.info("Summarization Complete")
                 print(pdf_summary)
@@ -127,7 +129,6 @@ def main():
 
         if ui.button(text="Summarize Website", key="styled_btn_tailwind_2", class_name="bg-orange-500 text-white"):
             extracted_text = extract_text_from_website(url)
-            extracted_text = extracted_text[:15000]
             web_summary = llm_pipeline_web(extracted_text)
             st.info(("Summarization Complete"))
             print(web_summary)
