@@ -39,7 +39,7 @@ def file_preprocessing(file):
         final_texts = final_texts + text.page_content
     return final_texts
 
-def llm_pipeline(filepath):
+def llm_pipeline_pdf(filepath):
   pipe_sum = pipeline("summarization")
   input_text = file_preprocessing(filepath)
   pdf_summary = pipe_sum(input_text, max_length=max_length, min_length=50, do_sample=False)
@@ -105,7 +105,7 @@ def main():
                 pdf_view = displayPDF(filepath)
 
             with col2:
-                pdf_summary = llm_pipeline(filepath)
+                pdf_summary = llm_pipeline_pdf(filepath)
                 st.info("Summarization Complete")
                 print(pdf_summary)
                 st.success(pdf_summary)
