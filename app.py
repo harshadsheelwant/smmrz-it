@@ -47,7 +47,7 @@ def llm_pipeline(filepath):
   return pdf_summary
 
 def llm_pipeline_notpdf(input_notpdf):
-  pipe_sum_notpdf = pipeline("summarization"
+  pipe_sum_notpdf = pipeline("summarization")
   notpdf_summary = pipe_sum_notpdf(input_notpdf, max_length=max_length, min_length=50, do_sample=False)
   notpdf_summary = notpdf_summary[0]['summary_text']
   return notpdf_summary
