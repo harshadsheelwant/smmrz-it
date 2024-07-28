@@ -13,7 +13,7 @@ import streamlit_shadcn_ui as ui
 from streamlit_extras.buy_me_a_coffee import button
 from annotated_text import annotated_text, annotation
 
-checkpoint = "MBZUAI/LaMini-Flan-T5-248M"
+checkpoint = "facebook/bart-large-cnn"
 tokenizer = T5Tokenizer.from_pretrained(checkpoint)
 base_model = T5ForConditionalGeneration.from_pretrained(checkpoint, offload_folder = 'offload', device_map = 'auto', torch_dtype = torch.float32)
 
