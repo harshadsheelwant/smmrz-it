@@ -2,9 +2,9 @@ import streamlit as st
 import re
 import requests
 from bs4 import BeautifulSoup
-# from langchain.text_splitter import RecursiveCharacterTextSplitter
-# from langchain.document_loaders import PyPDFLoader, DirectoryLoader
-# from langchain.chains import load_summarize_chain
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.document_loaders import PyPDFLoader, DirectoryLoader
+from langchain.chains import load_summarize_chain
 # from transformers import T5Tokenizer, T5ForConditionalGeneration
 # from transformers import pipeline
 import torch
