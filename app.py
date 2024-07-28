@@ -14,11 +14,12 @@ import streamlit_shadcn_ui as ui
 from streamlit_extras.buy_me_a_coffee import button
 from annotated_text import annotated_text, annotation
 
-checkpoint = "facebook/bart-large-cnn"
+checkpoint = "sshleifer/distilbart-cnn-12-6"
 tokenizer = BartTokenizer.from_pretrained(checkpoint)
 base_model = BartForConditionalGeneration.from_pretrained(checkpoint, device_map = 'auto')
 
-
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+base_model.to(device)
 
 def file_preprocessing(file):
     loader =  PyPDFLoader(file)
