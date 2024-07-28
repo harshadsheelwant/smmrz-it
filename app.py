@@ -2,22 +2,31 @@ import streamlit as st
 import re
 import requests
 from bs4 import BeautifulSoup
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.document_loaders import PyPDFLoader, DirectoryLoader
-from langchain.chains import load_summarize_chain
-from transformers import T5Tokenizer, T5ForConditionalGeneration
-from transformers import pipeline
+# from langchain.text_splitter import RecursiveCharacterTextSplitter
+# from langchain.document_loaders import PyPDFLoader, DirectoryLoader
+# from langchain.chains import load_summarize_chain
+# from transformers import T5Tokenizer, T5ForConditionalGeneration
+# from transformers import pipeline
 import torch
 import base64
 import streamlit_shadcn_ui as ui
 from streamlit_extras.buy_me_a_coffee import button
 from annotated_text import annotated_text, annotation
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
 
-checkpoint = "MBZUAI/LaMini-Flan-T5-248M"
-tokenizer = T5Tokenizer.from_pretrained(checkpoint)
-base_model = T5ForConditionalGeneration.from_pretrained(checkpoint, offload_folder = 'offload', device_map = 'auto', torch_dtype = torch.float32)
 
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
 
+# Function to summarize text
+#def summarize_text(text, max_length=50000):
+#    summarization_pipeline = pipeline("summarization")
+#    summary = summarization_pipeline(text, max_length=max_length, min_length=50, do_sample=False)
+#    return summary[0]['summary_text']
 
 def file_preprocessing(file):
     loader =  PyPDFLoader(file)
@@ -31,33 +40,21 @@ def file_preprocessing(file):
     return final_texts
 
 def llm_pipeline(filepath):
-  pipe_sum = pipeline('summarization',
-                      model= base_model,
-                      tokenizer=tokenizer,
-                      max_length = 500,
-                      min_length = 50)
+  pipe_sum = pipeline("summarization")
   input_text = file_preprocessing(filepath)
-  pdf_summary = pipe_sum(input_text)
+  pdf_summary = pipe_sum(input_text, max_length=max_length, min_length=50, do_sample=False)
   pdf_summary = pdf_summary[0]['summary_text']
   return pdf_summary
 
 def llm_pipeline_notpdf(input_notpdf):
-  pipe_sum_notpdf = pipeline('summarization',
-                      model= base_model,
-                      tokenizer=tokenizer,
-                      max_length = 500,
-                      min_length = 50)
-  notpdf_summary = pipe_sum_notpdf(input_notpdf)
+  pipe_sum_notpdf = pipeline("summarization"
+  notpdf_summary = pipe_sum_notpdf(input_notpdf, max_length=max_length, min_length=50, do_sample=False)
   notpdf_summary = notpdf_summary[0]['summary_text']
   return notpdf_summary
 
 def llm_pipeline_web(extracted_text):
-  pipe_sum_web = pipeline('summarization',
-                      model= base_model,
-                      tokenizer=tokenizer,
-                      max_length = 500,
-                      min_length = 50)
-  web_summary = pipe_sum_web(extracted_text)
+  pipe_sum_web = pipeline("summarization"
+  web_summary = pipe_sum_web(extracted_text, max_length=max_length, min_length=50, do_sample=False)
   web_summary = web_summary[0]['summary_text']
   return web_summary
 
