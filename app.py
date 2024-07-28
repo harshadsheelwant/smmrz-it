@@ -5,8 +5,9 @@ from bs4 import BeautifulSoup
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import PyPDFLoader, DirectoryLoader
 from langchain.chains import load_summarize_chain
-from transformers import T5Tokenizer, T5ForConditionalGeneration
+# from transformers import T5Tokenizer, T5ForConditionalGeneration
 from transformers import pipeline
+from transformers import BartTokenizer, BartForConditionalGeneration
 import torch
 import base64
 import streamlit_shadcn_ui as ui
@@ -14,8 +15,8 @@ from streamlit_extras.buy_me_a_coffee import button
 from annotated_text import annotated_text, annotation
 
 checkpoint = "facebook/bart-large-cnn"
-tokenizer = T5Tokenizer.from_pretrained(checkpoint)
-base_model = T5ForConditionalGeneration.from_pretrained(checkpoint, offload_folder = 'offload', device_map = 'auto', torch_dtype = torch.float32)
+tokenizer = BartTokenizer.from_pretrained(checkpoint)
+base_model = BartForConditionalGeneration.from_pretrained(checkpoint, device_map = 'auto')
 
 
 
