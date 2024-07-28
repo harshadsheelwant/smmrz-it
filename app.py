@@ -53,7 +53,7 @@ def llm_pipeline_notpdf(input_notpdf):
   return notpdf_summary
 
 def llm_pipeline_web(extracted_text):
-  pipe_sum_web = pipeline("summarization"
+  pipe_sum_web = pipeline("summarization")
   web_summary = pipe_sum_web(extracted_text, max_length=max_length, min_length=50, do_sample=False)
   web_summary = web_summary[0]['summary_text']
   return web_summary
