@@ -6,7 +6,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import PyPDFLoader, DirectoryLoader
 from langchain.chains import load_summarize_chain
 from transformers import T5Tokenizer, T5ForConditionalGeneration
-from transformers import AutoTokenizer
+#from transformers import AutoTokenizer
 from transformers import pipeline
 #from transformers import BartTokenizer, BartForConditionalGeneration
 import torch
@@ -15,10 +15,9 @@ import streamlit_shadcn_ui as ui
 from streamlit_extras.buy_me_a_coffee import button
 from annotated_text import annotated_text, annotation
 
-checkpoint = "google-t5/t5-small"
-tokenizer = AutoTokenizer.from_pretrained(checkpoint)
-#tokenizer = T5.from_pretrained(checkpoint)
-#base_model = T5ForConditionalGeneration.from_pretrained(checkpoint)
+checkpoint = "MBZUAI/LaMini-Flan-T5-248M"
+tokenizer = T5.from_pretrained(checkpoint)
+base_model = T5ForConditionalGeneration.from_pretrained(checkpoint)
 
 # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # base_model.to(device)
@@ -34,36 +33,16 @@ def file_preprocessing(file):
         final_texts = final_texts + text.page_content
     return final_texts
 
-def llm_pipeline(filepath):
+def llm_pipeline(input_text):
   pipe_sum = pipeline('summarization',
                       model= base_model,
                       tokenizer=tokenizer,
                       max_length = 500,
                       min_length = 50)
-  input_text = file_preprocessing(filepath)
-  pdf_summary = pipe_sum(input_text)
-  pdf_summary = pdf_summary[0]['summary_text']
-  return pdf_summary
+  summary = pipe_sum(input_text)
+  summary = summary[0]['summary_text']
+  return summary
 
-def llm_pipeline_notpdf(input_notpdf):
-  pipe_sum_notpdf = pipeline('summarization',
-                      model= base_model,
-                      tokenizer=tokenizer,
-                      max_length = 500,
-                      min_length = 50)
-  notpdf_summary = pipe_sum_notpdf(input_notpdf)
-  notpdf_summary = notpdf_summary[0]['summary_text']
-  return notpdf_summary
-
-def llm_pipeline_web(extracted_text):
-  pipe_sum_web = pipeline('summarization',
-                      model= base_model,
-                      tokenizer=tokenizer,
-                      max_length = 500,
-                      min_length = 50)
-  web_summary = pipe_sum_web(extracted_text)
-  web_summary = web_summary[0]['summary_text']
-  return web_summary
 
 
 @st.cache_data
@@ -110,20 +89,21 @@ def main():
             with col1:
                 st.info("Uploaded File")
                 pdf_view = displayPDF(filepath)
+                input_text = file_preprocessing(filepath)
 
             with col2:
-                pdf_summary = llm_pipeline(filepath)
+                pdf_summary = llm_pipeline(input_text)
                 st.info("Summarization Complete")
                 print(pdf_summary)
                 st.success(pdf_summary)
 
-    input_notpdf = st.text_input(
+    input_text = st.text_input(
         "Enter some text 👇")
 
     if input_notpdf is not None:
 
         if ui.button(text="Summarize Text", key="styled_btn_tailwind", class_name="bg-orange-500 text-white"):
-            notpdf_summary = llm_pipeline_notpdf(input_notpdf)
+            notpdf_summary = llm_pipeline(input_text)
             st.info(("Summarization Complete"))
             print(notpdf_summary)
             st.success(notpdf_summary)
@@ -135,7 +115,8 @@ def main():
         if ui.button(text="Summarize Website", key="styled_btn_tailwind_2", class_name="bg-orange-500 text-white"):
             extracted_text = extract_text_from_website(url)
             extracted_text = extracted_text[:1500]
-            web_summary = llm_pipeline_web(extracted_text)
+            input_text = extracted_text
+            web_summary = llm_pipeline(input_text)
             st.info(("Summarization Complete"))
             print(web_summary)
             st.success(web_summary)
