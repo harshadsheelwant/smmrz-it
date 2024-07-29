@@ -100,7 +100,7 @@ def main():
     input_text = st.text_input(
         "Enter some text 👇")
 
-    if input_notpdf is not None:
+    if input_text is not None:
 
         if ui.button(text="Summarize Text", key="styled_btn_tailwind", class_name="bg-orange-500 text-white"):
             notpdf_summary = llm_pipeline(input_text)
