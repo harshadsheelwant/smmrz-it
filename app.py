@@ -5,18 +5,20 @@ from bs4 import BeautifulSoup
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import PyPDFLoader, DirectoryLoader
 from langchain.chains import load_summarize_chain
-# from transformers import T5Tokenizer, T5ForConditionalGeneration
+from transformers import T5Tokenizer, T5ForConditionalGeneration
+from transformers import AutoTokenizer
 from transformers import pipeline
-from transformers import BartTokenizer, BartForConditionalGeneration
+#from transformers import BartTokenizer, BartForConditionalGeneration
 import torch
 import base64
 import streamlit_shadcn_ui as ui
 from streamlit_extras.buy_me_a_coffee import button
 from annotated_text import annotated_text, annotation
 
-checkpoint = "sshleifer/distilbart-cnn-12-6"
-tokenizer = BartTokenizer.from_pretrained(checkpoint)
-base_model = BartForConditionalGeneration.from_pretrained(checkpoint)
+checkpoint = "google-t5/t5-small"
+tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+#tokenizer = T5.from_pretrained(checkpoint)
+#base_model = T5ForConditionalGeneration.from_pretrained(checkpoint)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 base_model.to(device)
