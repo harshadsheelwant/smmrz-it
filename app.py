@@ -90,7 +90,7 @@ def main():
                 st.info("Uploaded File")
                 pdf_view = displayPDF(filepath)
                 input_text = file_preprocessing(filepath)
-                # input_text = input_text[:5000]
+                input_text = input_text[:1500]
 
             with col2:
                 pdf_summary = llm_pipeline(input_text)
