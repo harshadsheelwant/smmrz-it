@@ -20,8 +20,8 @@ tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 #tokenizer = T5.from_pretrained(checkpoint)
 #base_model = T5ForConditionalGeneration.from_pretrained(checkpoint)
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-base_model.to(device)
+# device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+# base_model.to(device)
 
 def file_preprocessing(file):
     loader =  PyPDFLoader(file)
