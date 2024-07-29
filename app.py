@@ -16,7 +16,7 @@ from streamlit_extras.buy_me_a_coffee import button
 from annotated_text import annotated_text, annotation
 
 checkpoint = "MBZUAI/LaMini-Flan-T5-248M"
-tokenizer = T5.from_pretrained(checkpoint)
+tokenizer = T5Tokenizer.from_pretrained(checkpoint)
 base_model = T5ForConditionalGeneration.from_pretrained(checkpoint)
 
 # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
