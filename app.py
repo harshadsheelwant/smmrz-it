@@ -37,7 +37,7 @@ def llm_pipeline(input_text):
   pipe_sum = pipeline('summarization',
                       model= base_model,
                       tokenizer=tokenizer,
-                      max_length = 500,
+                      max_length = 5000,
                       min_length = 50)
   summary = pipe_sum(input_text)
   summary = summary[0]['summary_text']
@@ -90,7 +90,7 @@ def main():
                 st.info("Uploaded File")
                 pdf_view = displayPDF(filepath)
                 input_text = file_preprocessing(filepath)
-                input_text = input_text[:512]
+                input_text = input_text[:5000]
 
             with col2:
                 pdf_summary = llm_pipeline(input_text)
