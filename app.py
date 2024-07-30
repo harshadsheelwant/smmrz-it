@@ -25,8 +25,8 @@ base_model = T5ForConditionalGeneration.from_pretrained(checkpoint)
 # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # base_model.to(device)
 
-def transcript_translator(yt_url):
-    transcript_for_translation = get_transcript(yt_url)
+def transcript_translator(extracted_transcript):
+    #transcript_for_translation = get_transcript(yt_url)
     if not transcript_for_translation:
         st.error("Failed to retrieve transcript for translation.")
         return ""
@@ -138,7 +138,8 @@ def main():
     if yt_url is not None:
 
         if ui.button(text="Summarize YouTube Video", key="styled_btn_tailwind_yt", class_name="bg-orange-500 text-white"):
-            input_text = transcript_translator(yt_url)
+            extracted_transcript = get_transcript(yt_url)
+            input_text = transcript_translator(extracted_transcript)
             #input_text = input_text[:5000]
             col1, col2 = st.columns(2)
             with col1:    
