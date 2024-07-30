@@ -27,7 +27,7 @@ base_model = T5ForConditionalGeneration.from_pretrained(checkpoint)
 
 def transcript_translator(extracted_transcript):
     #transcript_for_translation = get_transcript(yt_url)
-    if not transcript_for_translation:
+    if not extracted_transcript:
         st.error("Failed to retrieve transcript for translation.")
         return ""
     
@@ -35,7 +35,7 @@ def transcript_translator(extracted_transcript):
 
     try:
         translator = GoogleTranslator(source='auto', target='en')
-        final_transcript = translator.translate(transcript_for_translation)
+        final_transcript = translator.translate(extracted_transcript)
     except Exception as e:
         # st.error(f"Translation failed: {e}")
         return ""
