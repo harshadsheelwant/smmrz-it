@@ -44,29 +44,36 @@ def transcript_translator(extracted_transcript):
     #st.info(f"Translation: {final_transcript[:500]}...")
     return final_transcript
 
+
 def get_transcript(yt_url):
     try:
-        video_id = yt_url.split("v=")[-1]
+        video_id = yt_url.split("v=")[-1].split("&")[0]
         transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
     except Exception as e:
-        st.error(f"Error fetching transcript list: {e}")
+        st.error(f"Error fetching transcript list for video ID {video_id}: {e}")
         return ""
     
     try:
+        # Find manually created transcript if available
         transcript = transcript_list.find_manually_created_transcript()
     except Exception:
         try:
+            # Find generated transcripts
             generated_transcripts = [trans for trans in transcript_list if trans.is_generated]
-            transcript = transcript_list.find_generated_transcript(['en'])
-            transcript = generated_transcripts['en ("English")']
+            if not generated_transcripts:
+                st.error("No generated transcripts available.")
+                return ""
+            transcript = generated_transcripts[0]
         except Exception as e:
             st.error(f"No suitable transcript found: {e}")
             return ""
     
     try:
-        transcript_for_translation = " ".join([part['text'] for part in transcript.fetch()])
+        # Fetch the English translation of the transcript
+        english_transcript = transcript.translate('en')
+        transcript_for_translation = " ".join([part['text'] for part in english_transcript.fetch()])
     except Exception as e:
-        st.error(f"Error fetching transcript text: {e}")
+        st.error(f"Error fetching English translated transcript text: {e}")
         return ""
     
     return transcript_for_translation
