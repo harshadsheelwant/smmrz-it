@@ -14,6 +14,8 @@ import base64
 import streamlit_shadcn_ui as ui
 from streamlit_extras.buy_me_a_coffee import button
 from annotated_text import annotated_text, annotation
+from googletrans import Translator
+
 
 checkpoint = "MBZUAI/LaMini-Flan-T5-248M"
 tokenizer = T5Tokenizer.from_pretrained(checkpoint)
@@ -41,6 +43,13 @@ def get_transcript(yt_url):
 
     full_transcript = " ".join([part['text'] for part in transcript.fetch()])
     return full_transcript
+
+
+def transcript_translator(full_transcript):
+    translator = Translator()
+    translation = translator.translate(full_transcript)
+    final_transcript = translation.text
+    return final_transcript
 
 
 def file_preprocessing(file):
@@ -107,7 +116,8 @@ def main():
     if yt_url is not None:
 
         if ui.button(text="Summarize PDF", key="styled_btn_tailwind_yt", class_name="bg-orange-500 text-white"):
-            input_text = get_transcript(yt_url)
+            get_transcript(yt_url)
+            input_text = transcript_translator(full_transcript)
             input_text = input_text[:5000]
             col1, col2 = st.columns(2)
             with col1:    
