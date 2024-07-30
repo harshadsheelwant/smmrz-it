@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 import re
 import requests
 from bs4 import BeautifulSoup
@@ -6,9 +7,8 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import PyPDFLoader, DirectoryLoader
 from langchain.chains import load_summarize_chain
 from transformers import T5Tokenizer, T5ForConditionalGeneration
-#from transformers import AutoTokenizer
+from youtube_transcript_api import YouTubeTranscriptApi
 from transformers import pipeline
-#from transformers import BartTokenizer, BartForConditionalGeneration
 import torch
 import base64
 import streamlit_shadcn_ui as ui
@@ -73,10 +73,49 @@ def extract_text_from_website(url):
     web_text = "\n".join(line for line in web_text.splitlines() if line.strip())
     return web_text
 
+def youtube_video_transcript(yt_url):
+    video_id = yt_url.split("v=")[-1]
+    transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
+
+    # Try fetching the manual transcript
+    try:
+        transcript = transcript_list.find_manually_created_transcript()
+        language_code = transcript.language_code  # Save the detected language
+    except:
+        # If no manual transcript is found, try fetching an auto-generated transcript in a supported language
+        try:
+            generated_transcripts = [trans for trans in transcript_list if trans.is_generated]
+            transcript = generated_transcripts[0]
+            language_code = transcript.language_code  # Save the detected language
+        except:
+            # If no auto-generated transcript is found, raise an exception
+            raise Exception("No suitable transcript found.")
+
+    full_transcript = " ".join([part['text'] for part in transcript.fetch()])
+    return full_transcript
+
 
 def main():
     st.title("Summarize-It📄")
     
+
+    yt_url=st.text_input('Enter YouTube URL 👇')
+
+    if yt_url is not None:
+    col1, col2 = st.columns(2)
+    with col1:    
+                input_text = youtube_video_transcript(yt_url)
+                input_text = input_text[:5000]
+                st.video(yt_url)
+
+    with col2:
+                yt_summary = llm_pipeline(input_text)
+                st.info("Summarization Complete")
+                print(yt_summary)
+                st.success(yt_summary)
+
+
+
 
     uploaded_file = st.file_uploader("Upload your PDF file", type=['pdf'])
 

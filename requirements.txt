@@ -12,3 +12,5 @@ beautifulsoup4
 PyPDF2 
 reportlab
 nltk
+youtube-transcript-api
+pytube
