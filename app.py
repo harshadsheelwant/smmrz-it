@@ -30,10 +30,15 @@ def transcript_translator(yt_url):
         st.error("Failed to retrieve transcript for translation.")
         return ""
     
+    st.info(f"Transcript for translation: {transcript_for_translation[:500]}...")  # Display part of the transcript for debugging
+
     translator = Translator()
     try:
         translation = translator.translate(transcript_for_translation)
         final_transcript = translation.text
+    except AttributeError as e:
+        st.error(f"Translation failed due to attribute error: {e}")
+        return ""
     except Exception as e:
         st.error(f"Translation failed: {e}")
         return ""
@@ -65,6 +70,7 @@ def get_transcript(yt_url):
         return ""
     
     return transcript_for_translation
+
 
 
 
