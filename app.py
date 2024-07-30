@@ -116,7 +116,7 @@ def main():
 
     if yt_url is not None:
 
-        if ui.button(text="Summarize PDF", key="styled_btn_tailwind_yt", class_name="bg-orange-500 text-white"):
+        if ui.button(text="Summarize YouTube Video", key="styled_btn_tailwind_yt", class_name="bg-orange-500 text-white"):
             input_text = transcript_translator(yt_url)
             input_text = input_text[:5000]
             col1, col2 = st.columns(2)
