@@ -22,6 +22,7 @@ base_model = T5ForConditionalGeneration.from_pretrained(checkpoint)
 # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # base_model.to(device)
 
+
 def file_preprocessing(file):
     loader =  PyPDFLoader(file)
     pages = loader.load_and_split()
@@ -81,11 +82,13 @@ def main():
 
     yt_url=st.text_input('Enter YouTube URL 👇')
 
+    
+
     if yt_url is not None:
+        input_text = youtube_video_transcript(yt_url)
+        input_text = input_text[:5000]
         col1, col2 = st.columns(2)
         with col1:    
-                input_text = youtube_video_transcript(yt_url)
-                input_text = input_text[:5000]
                 st.video(yt_url)
 
         with col2:
@@ -153,26 +156,7 @@ def main():
     ui.link_button(text="My Github", url="https://github.com/harshadsheelwant", key="link_btn2", class_name="bg-black shadow-cyan-500/50 hover:bg-blue-500 text-white font-bold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded")
 
 
-def youtube_video_transcript(yt_url):
-    video_id = yt_url.split("v=")[-1]
-    transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
 
-    # Try fetching the manual transcript
-    try:
-        transcript = transcript_list.find_manually_created_transcript()
-        language_code = transcript.language_code  # Save the detected language
-    except:
-        # If no manual transcript is found, try fetching an auto-generated transcript in a supported language
-        try:
-            generated_transcripts = [trans for trans in transcript_list if trans.is_generated]
-            transcript = generated_transcripts[0]
-            language_code = transcript.language_code  # Save the detected language
-        except:
-            # If no auto-generated transcript is found, raise an exception
-            raise Exception("No suitable transcript found.")
-
-    full_transcript = " ".join([part['text'] for part in transcript.fetch()])
-    return full_transcript
 
 if __name__ == '__main__':
   main()
