@@ -24,6 +24,13 @@ base_model = T5ForConditionalGeneration.from_pretrained(checkpoint)
 # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # base_model.to(device)
 
+def transcript_translator(yt_url):
+    transcript_for_translation = get_transcript(yt_url)
+    translator = Translator()
+    translation = translator.translate(transcript_for_translation)
+    final_transcript = translation.text
+    return final_transcript
+
 def get_transcript(yt_url):
     video_id = yt_url.split("v=")[-1]
     transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
@@ -41,16 +48,10 @@ def get_transcript(yt_url):
             # If no auto-generated transcript is found, raise an exception
             raise Exception("No suitable transcript found.")
 
-    full_transcript = " ".join([part['text'] for part in transcript.fetch()])
-    return full_transcript
+    transcript_for_translation = " ".join([part['text'] for part in transcript.fetch()])
+    return transcript_for_translation
 
 
-def transcript_translator(yt_url):
-    transcript_for_translation = get_transcript(yt_url)
-    translator = Translator()
-    translation = translator.translate(transcript_for_translation)
-    final_transcript = translation.text
-    return final_transcript
 
 
 def file_preprocessing(file):
