@@ -58,7 +58,7 @@ def get_transcript(yt_url):
         try:
             generated_transcripts = [trans for trans in transcript_list if trans.is_generated]
             transcript = transcript_list.find_generated_transcript(['en'])
-            transcript = generated_transcripts['en']
+            transcript = generated_transcripts['en ("English")']
         except Exception as e:
             st.error(f"No suitable transcript found: {e}")
             return ""
