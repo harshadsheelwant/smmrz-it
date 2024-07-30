@@ -34,7 +34,7 @@ def transcript_translator(extracted_transcript):
     # st.info(f"Transcript for translation: {transcript_for_translation[:500]}...")  # Display part of the transcript for debugging
 
     try:
-        translator = GoogleTranslator(source='auto', target='en')
+        translator = GoogleTranslator(source='hi', target='en')
         final_transcript = translator.translate(extracted_transcript)
     except Exception as e:
         # st.error(f"Translation failed: {e}")
