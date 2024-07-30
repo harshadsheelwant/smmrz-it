@@ -45,9 +45,10 @@ def get_transcript(yt_url):
     return full_transcript
 
 
-def transcript_translator(full_transcript):
+def transcript_translator(yt_url):
+    transcript_for_translation = get_transcript(yt_url)
     translator = Translator()
-    translation = translator.translate(full_transcript)
+    translation = translator.translate(transcript_for_translation)
     final_transcript = translation.text
     return final_transcript
 
