@@ -31,15 +31,16 @@ def transcript_translator(yt_url):
         st.error("Failed to retrieve transcript for translation.")
         return ""
     
-    st.info(f"Transcript for translation: {transcript_for_translation[:500]}...")  # Display part of the transcript for debugging
+    # st.info(f"Transcript for translation: {transcript_for_translation[:500]}...")  # Display part of the transcript for debugging
 
     try:
         translator = GoogleTranslator(source='auto', target='en')
         final_transcript = translator.translate(transcript_for_translation)
     except Exception as e:
-        st.error(f"Translation failed: {e}")
+        # st.error(f"Translation failed: {e}")
         return ""
     
+    final_transcript = final_transcript[:10000]
     return final_transcript
 
 def get_transcript(yt_url):
