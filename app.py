@@ -41,6 +41,7 @@ def transcript_translator(yt_url):
         return ""
     
     final_transcript = final_transcript[:10000]
+    st.info(f"Translation: {final_transcript[:500]}...")
     return final_transcript
 
 def get_transcript(yt_url):
