@@ -106,7 +106,7 @@ def main():
 
     if yt_url is not None:
 
-        if ui.button(text="Summarize PDF", key="styled_btn_tailwind_2", class_name="bg-orange-500 text-white"):
+        if ui.button(text="Summarize PDF", key="styled_btn_tailwind_yt", class_name="bg-orange-500 text-white"):
             input_text = get_transcript(yt_url)
             input_text = input_text[:5000]
             col1, col2 = st.columns(2)
@@ -125,7 +125,7 @@ def main():
     uploaded_file = st.file_uploader("Upload your PDF file", type=['pdf'])
 
     if uploaded_file is not None:
-        if ui.button(text="Summarize PDF", key="styled_btn_tailwind_1", class_name="bg-orange-500 text-white"):
+        if ui.button(text="Summarize PDF", key="styled_btn_tailwind_pdf", class_name="bg-orange-500 text-white"):
             col1, col2 = st.columns(2)
             filepath = "data/"+uploaded_file.name
             with open(filepath, "wb") as temp_file:
@@ -147,7 +147,7 @@ def main():
 
     if input_text is not None:
 
-        if ui.button(text="Summarize Text", key="styled_btn_tailwind", class_name="bg-orange-500 text-white"):
+        if ui.button(text="Summarize Text", key="styled_btn_tailwind_txt", class_name="bg-orange-500 text-white"):
             notpdf_summary = llm_pipeline(input_text)
             st.info(("Summarization Complete"))
             print(notpdf_summary)
@@ -157,7 +157,7 @@ def main():
 
     if url is not None:
 
-        if ui.button(text="Summarize Website", key="styled_btn_tailwind_2", class_name="bg-orange-500 text-white"):
+        if ui.button(text="Summarize Website", key="styled_btn_tailwind_web", class_name="bg-orange-500 text-white"):
             extracted_text = extract_text_from_website(url)
             extracted_text = extracted_text[:1500]
             input_text = extracted_text
