@@ -14,7 +14,8 @@ import base64
 import streamlit_shadcn_ui as ui
 from streamlit_extras.buy_me_a_coffee import button
 from annotated_text import annotated_text, annotation
-from googletrans import Translator
+# from googletrans import Translator
+from deep_translator import GoogleTranslator
 
 
 checkpoint = "MBZUAI/LaMini-Flan-T5-248M"
@@ -32,13 +33,9 @@ def transcript_translator(yt_url):
     
     st.info(f"Transcript for translation: {transcript_for_translation[:500]}...")  # Display part of the transcript for debugging
 
-    translator = Translator()
     try:
-        translation = translator.translate(transcript_for_translation)
-        final_transcript = translation.text
-    except AttributeError as e:
-        st.error(f"Translation failed due to attribute error: {e}")
-        return ""
+        translator = GoogleTranslator(source='auto', target='en')
+        final_transcript = translator.translate(transcript_for_translation)
     except Exception as e:
         st.error(f"Translation failed: {e}")
         return ""
