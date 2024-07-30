@@ -40,8 +40,8 @@ def transcript_translator(extracted_transcript):
         # st.error(f"Translation failed: {e}")
         return ""
     
-    final_transcript = final_transcript[:10000]
-    st.info(f"Translation: {final_transcript[:500]}...")
+    #final_transcript = final_transcript[:1000]
+    #st.info(f"Translation: {final_transcript[:500]}...")
     return final_transcript
 
 def get_transcript(yt_url):
