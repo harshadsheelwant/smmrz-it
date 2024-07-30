@@ -172,7 +172,7 @@ def main():
                 """
             )
 
-    annotated_text("The summarization by this application is done using ", annotation("LaMini-Flan-T5-248M", " Summarization Pipeline", color="#98e2cf", border="1px dashed red"))
+    annotated_text("The summarization by this application is done using ", annotation("LaMini-Flan-T5-248M(%s)" % https://huggingface.co/MBZUAI/LaMini-Flan-T5-248M, " Summarization Pipeline", color="#98e2cf", border="1px dashed red"))
     button(username="harshadsheelwant", floating=False, width=221)                
     ui.link_button(text="My LinkedIN", url="https://www.linkedin.com/in/harshadsheelwant/", key="link_btn1", class_name="bg-black hover:bg-blue-500 text-white font-bold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded")
     ui.link_button(text="My Github", url="https://github.com/harshadsheelwant", key="link_btn2", class_name="bg-black shadow-cyan-500/50 hover:bg-blue-500 text-white font-bold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded")
