@@ -14,35 +14,11 @@ import base64
 import streamlit_shadcn_ui as ui
 from streamlit_extras.buy_me_a_coffee import button
 from annotated_text import annotated_text, annotation
-# from googletrans import Translator
-from deep_translator import GoogleTranslator
 
 
 checkpoint = "MBZUAI/LaMini-Flan-T5-248M"
 tokenizer = T5Tokenizer.from_pretrained(checkpoint)
 base_model = T5ForConditionalGeneration.from_pretrained(checkpoint)
-
-# device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-# base_model.to(device)
-
-def transcript_translator(extracted_transcript):
-    #transcript_for_translation = get_transcript(yt_url)
-    if not extracted_transcript:
-        st.error("Failed to retrieve transcript for translation.")
-        return ""
-    
-    # st.info(f"Transcript for translation: {transcript_for_translation[:500]}...")  # Display part of the transcript for debugging
-
-    try:
-        translator = GoogleTranslator(source='hi', target='en')
-        final_transcript = translator.translate(extracted_transcript)
-    except Exception as e:
-        # st.error(f"Translation failed: {e}")
-        return ""
-    
-    #final_transcript = final_transcript[:1000]
-    #st.info(f"Translation: {final_transcript[:500]}...")
-    return final_transcript
 
 
 def get_transcript(yt_url):
@@ -148,8 +124,6 @@ def main():
         if ui.button(text="Summarize YouTube Video", key="styled_btn_tailwind_yt", class_name="bg-orange-500 text-white"):
             extracted_transcript = get_transcript(yt_url)
             input_text = extracted_transcript
-            #input_text = transcript_translator(extracted_transcript)
-            #input_text = input_text[:5000]
             col1, col2 = st.columns(2)
             with col1:    
                 st.video(yt_url)

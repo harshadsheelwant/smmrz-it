@@ -14,5 +14,3 @@ reportlab
 nltk
 youtube-transcript-api
 pytube
-googletrans
-deep_translator
