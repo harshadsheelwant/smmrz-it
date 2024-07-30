@@ -105,13 +105,15 @@ def main():
     
 
     if yt_url is not None:
-        input_text = get_transcript(yt_url)
-        input_text = input_text[:5000]
-        col1, col2 = st.columns(2)
-        with col1:    
+
+        if ui.button(text="Summarize PDF", key="styled_btn_tailwind_2", class_name="bg-orange-500 text-white"):
+                input_text = get_transcript(yt_url)
+                input_text = input_text[:5000]
+                col1, col2 = st.columns(2)
+             with col1:    
                 st.video(yt_url)
 
-        with col2:
+             with col2:
                 yt_summary = llm_pipeline(input_text)
                 st.info("Summarization Complete")
                 print(yt_summary)
