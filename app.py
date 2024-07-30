@@ -26,29 +26,44 @@ base_model = T5ForConditionalGeneration.from_pretrained(checkpoint)
 
 def transcript_translator(yt_url):
     transcript_for_translation = get_transcript(yt_url)
+    if not transcript_for_translation:
+        st.error("Failed to retrieve transcript for translation.")
+        return ""
+    
     translator = Translator()
-    translation = translator.translate(transcript_for_translation)
-    final_transcript = translation.text
+    try:
+        translation = translator.translate(transcript_for_translation)
+        final_transcript = translation.text
+    except Exception as e:
+        st.error(f"Translation failed: {e}")
+        return ""
+    
     return final_transcript
 
 def get_transcript(yt_url):
-    video_id = yt_url.split("v=")[-1]
-    transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
-
-    # Try fetching the manual transcript
+    try:
+        video_id = yt_url.split("v=")[-1]
+        transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
+    except Exception as e:
+        st.error(f"Error fetching transcript list: {e}")
+        return ""
+    
     try:
         transcript = transcript_list.find_manually_created_transcript()
-        language_code = transcript.language_code  # Save the detected language
-    except:
-        # If no manual transcript is found, try fetching an auto-generated transcript in a supported language
+    except Exception:
         try:
             generated_transcripts = [trans for trans in transcript_list if trans.is_generated]
             transcript = generated_transcripts[0]
-        except:
-            # If no auto-generated transcript is found, raise an exception
-            raise Exception("No suitable transcript found.")
-
-    transcript_for_translation = " ".join([part['text'] for part in transcript.fetch()])
+        except Exception as e:
+            st.error(f"No suitable transcript found: {e}")
+            return ""
+    
+    try:
+        transcript_for_translation = " ".join([part['text'] for part in transcript.fetch()])
+    except Exception as e:
+        st.error(f"Error fetching transcript text: {e}")
+        return ""
+    
     return transcript_for_translation
 
 
