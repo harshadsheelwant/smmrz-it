@@ -117,8 +117,7 @@ def main():
     if yt_url is not None:
 
         if ui.button(text="Summarize PDF", key="styled_btn_tailwind_yt", class_name="bg-orange-500 text-white"):
-            get_transcript(yt_url)
-            input_text = transcript_translator(full_transcript)
+            input_text = transcript_translator(yt_url)
             input_text = input_text[:5000]
             col1, col2 = st.columns(2)
             with col1:    
