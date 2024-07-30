@@ -147,7 +147,8 @@ def main():
 
         if ui.button(text="Summarize YouTube Video", key="styled_btn_tailwind_yt", class_name="bg-orange-500 text-white"):
             extracted_transcript = get_transcript(yt_url)
-            input_text = transcript_translator(extracted_transcript)
+            input_text = extracted_transcript
+            #input_text = transcript_translator(extracted_transcript)
             #input_text = input_text[:5000]
             col1, col2 = st.columns(2)
             with col1:    
