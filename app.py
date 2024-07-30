@@ -73,26 +73,6 @@ def extract_text_from_website(url):
     web_text = "\n".join(line for line in web_text.splitlines() if line.strip())
     return web_text
 
-def youtube_video_transcript(yt_url):
-    video_id = yt_url.split("v=")[-1]
-    transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
-
-    # Try fetching the manual transcript
-    try:
-        transcript = transcript_list.find_manually_created_transcript()
-        language_code = transcript.language_code  # Save the detected language
-    except:
-        # If no manual transcript is found, try fetching an auto-generated transcript in a supported language
-        try:
-            generated_transcripts = [trans for trans in transcript_list if trans.is_generated]
-            transcript = generated_transcripts[0]
-            language_code = transcript.language_code  # Save the detected language
-        except:
-            # If no auto-generated transcript is found, raise an exception
-            raise Exception("No suitable transcript found.")
-
-    full_transcript = " ".join([part['text'] for part in transcript.fetch()])
-    return full_transcript
 
 
 def main():
@@ -171,6 +151,28 @@ def main():
     button(username="harshadsheelwant", floating=False, width=221)                
     ui.link_button(text="My LinkedIN", url="https://www.linkedin.com/in/harshadsheelwant/", key="link_btn1", class_name="bg-black hover:bg-blue-500 text-white font-bold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded")
     ui.link_button(text="My Github", url="https://github.com/harshadsheelwant", key="link_btn2", class_name="bg-black shadow-cyan-500/50 hover:bg-blue-500 text-white font-bold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded")
+
+
+def youtube_video_transcript(yt_url):
+    video_id = yt_url.split("v=")[-1]
+    transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
+
+    # Try fetching the manual transcript
+    try:
+        transcript = transcript_list.find_manually_created_transcript()
+        language_code = transcript.language_code  # Save the detected language
+    except:
+        # If no manual transcript is found, try fetching an auto-generated transcript in a supported language
+        try:
+            generated_transcripts = [trans for trans in transcript_list if trans.is_generated]
+            transcript = generated_transcripts[0]
+            language_code = transcript.language_code  # Save the detected language
+        except:
+            # If no auto-generated transcript is found, raise an exception
+            raise Exception("No suitable transcript found.")
+
+    full_transcript = " ".join([part['text'] for part in transcript.fetch()])
+    return full_transcript
 
 if __name__ == '__main__':
   main()
