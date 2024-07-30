@@ -22,6 +22,26 @@ base_model = T5ForConditionalGeneration.from_pretrained(checkpoint)
 # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # base_model.to(device)
 
+def get_transcript(yt_url):
+    video_id = yt_url.split("v=")[-1]
+    transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
+
+    # Try fetching the manual transcript
+    try:
+        transcript = transcript_list.find_manually_created_transcript()
+        language_code = transcript.language_code  # Save the detected language
+    except:
+        # If no manual transcript is found, try fetching an auto-generated transcript in a supported language
+        try:
+            generated_transcripts = [trans for trans in transcript_list if trans.is_generated]
+            transcript = generated_transcripts[0]
+        except:
+            # If no auto-generated transcript is found, raise an exception
+            raise Exception("No suitable transcript found.")
+
+    full_transcript = " ".join([part['text'] for part in transcript.fetch()])
+    return full_transcript
+
 
 def file_preprocessing(file):
     loader =  PyPDFLoader(file)
@@ -85,7 +105,7 @@ def main():
     
 
     if yt_url is not None:
-        input_text = youtube_video_transcript(yt_url)
+        input_text = get_transcript(yt_url)
         input_text = input_text[:5000]
         col1, col2 = st.columns(2)
         with col1:    
