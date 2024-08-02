@@ -186,7 +186,7 @@ def main():
 
             st.markdown(
                 """
-                This feature is still under development, it converts the text as it is present in the input website, trucates it and summarizes the text using a 'LLM model'.
+                This feature is still under development, it converts the text as it is present in the input website, truncates it to a length acceptable by the used model and summarizes the text using a 'LLM model'.
                 """
             )
 
