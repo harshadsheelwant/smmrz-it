@@ -82,7 +82,7 @@ def llm_pipeline(input_text):
 
 
 
-@st.cache_data
+#@st.cache_data
 #function to display the PDF of a given file
 def displayPDF(file):
 #     # Opening file from file path
@@ -97,6 +97,8 @@ def displayPDF(file):
     with open(file, "rb") as f:
          base64_pdf = base64.b64encode(f.read()).decode('utf-8')
          pdf_viewer(f.read(), height=100, width=300)
+    
+    st.markdown(pdf_viewer, unsafe_allow_html=True)
 
 #streamlit code
 st.set_page_config(
