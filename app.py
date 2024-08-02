@@ -95,7 +95,7 @@ def displayPDF(file):
 #     # Displaying File
 #     st.markdown(pdf_display, unsafe_allow_html=True)
     with open(file, "rb") as f:
-         pdf_viewer(f.read(), height=100, width=300)
+         pdf_viewer(f.read(), height=600, width=800)
 
 #streamlit code
 st.set_page_config(
