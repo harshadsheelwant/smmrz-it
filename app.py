@@ -95,10 +95,7 @@ def displayPDF(file):
 #     # Displaying File
 #     st.markdown(pdf_display, unsafe_allow_html=True)
     with open(file, "rb") as f:
-         base64_pdf = base64.b64encode(f.read()).decode('utf-8')
          pdf_viewer(f.read(), height=100, width=300)
-    
-    st.markdown(pdf_viewer, unsafe_allow_html=True)
 
 #streamlit code
 st.set_page_config(
