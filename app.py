@@ -125,7 +125,7 @@ def main():
     st.title("Summarize-It📄")
     
     st.write("Summarize Video")
-    uploaded_video = st.file_uploader("Upload your Video(MP4) file", type=['video/mp4'])
+    uploaded_video = st.file_uploader("Upload your Video(MP4) file", type=['mp4'])
 
     if uploaded_video is not None:
         if ui.button(text="Summarize Video", key="styled_btn_tailwind_vdo", class_name="bg-orange-500 text-white"):
