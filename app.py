@@ -24,9 +24,9 @@ base_model = T5ForConditionalGeneration.from_pretrained(checkpoint)
 
 
 def transcribe_video(uploaded_video):
-    video = uploaded_video
+    video.mp4 = uploaded_video
     model = whisper.load_model("base")
-    result=model.transcribe("video.p4")
+    result=model.transcribe("video.mp4")
     transcription = result["text"]
 
 
