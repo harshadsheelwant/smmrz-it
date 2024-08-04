@@ -18,6 +18,7 @@ from streamlit_pdf_viewer import pdf_viewer
 import whisper
 from moviepy.editor import VideoFileClip
 import ffmpeg
+import subprocess
 
 checkpoint = "MBZUAI/LaMini-Flan-T5-248M"
 tokenizer = T5Tokenizer.from_pretrained(checkpoint)
