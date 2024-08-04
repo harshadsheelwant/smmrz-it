@@ -16,3 +16,4 @@ youtube-transcript-api
 pytube
 streamlit-pdf-viewer
 openai-whisper
+jiwer
