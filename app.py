@@ -124,7 +124,7 @@ def extract_text_from_website(url):
 def main():
     st.title("Summarize-It📄")
     
-
+    st.write("Summarize Video")
     uploaded_video = st.file_uploader("Upload your Video(MP4) file", type=['video/mp4'])
 
     if uploaded_video is not None:
