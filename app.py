@@ -136,7 +136,7 @@ def main():
             with col1:
                 st.info("Uploaded Video")
                 st.video(uploaded_video, format="video/mp4")
-                input_text = transcribe_video(video)
+                input_text = transcribe_video(uploaded_video)
                 input_text = input_text[:5000]
 
             with col2:
