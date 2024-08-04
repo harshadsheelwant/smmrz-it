@@ -31,7 +31,7 @@ def transcribe_video(uploaded_video):
     # Extract audio using moviepy
     clip = VideoFileClip(video)
     audio_path = "temp_audio.wav"
-    clip.audio.write_audiofile(audio_path)
+    clip.audio.write_audiofile(audio_path, logger=None)  # Disable progress bar
 
     # Transcribe audio using whisper
     model = whisper.load_model("base")
