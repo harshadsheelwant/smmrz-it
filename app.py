@@ -18,7 +18,6 @@ from streamlit_pdf_viewer import pdf_viewer
 import whisper
 from moviepy.editor import VideoFileClip
 import ffmpeg
-import subprocess
 
 checkpoint = "MBZUAI/LaMini-Flan-T5-248M"
 tokenizer = T5Tokenizer.from_pretrained(checkpoint)
@@ -29,27 +28,15 @@ def transcribe_video(uploaded_video):
     video = uploaded_video.name
     with open(video, 'wb') as f:
         f.write(uploaded_video.getbuffer())
-
+    
     # Extract audio using moviepy
+    clip = VideoFileClip(video)
     audio_path = "temp_audio.wav"
-    try:
-        clip = VideoFileClip(video)
-        clip.audio.write_audiofile(audio_path, logger=None)  # Disable progress bar
-    except Exception as e:
-        st.error(f"Error extracting audio from video: {e}")
-        return ""
-
-    # Convert audio to mp3 using ffmpeg
-    mp3_path = "output.mp3"
-    try:
-        subprocess.run(['ffmpeg', '-i', audio_path, mp3_path], check=True, stderr=subprocess.PIPE)
-    except subprocess.CalledProcessError as e:
-        st.error(f"Error with ffmpeg: {e.stderr.decode()}")
-        return ""
+    clip.audio.write_audiofile(audio_path, logger=None)  # Disable progress bar
 
     # Transcribe audio using whisper
     model = whisper.load_model("base")
-    result = model.transcribe(mp3_path)
+    result = model.transcribe(audio_path)
     transcription = result["text"]
     return transcription
 
