@@ -16,9 +16,7 @@ from streamlit_extras.buy_me_a_coffee import button
 from annotated_text import annotated_text, annotation
 from streamlit_pdf_viewer import pdf_viewer
 import whisper
-import imageio_ffmpeg as ffmpeg
-
-os.system('apt-get install -y ffmpeg')
+from moviepy.editor import VideoFileClip
 
 checkpoint = "MBZUAI/LaMini-Flan-T5-248M"
 tokenizer = T5Tokenizer.from_pretrained(checkpoint)
@@ -26,10 +24,20 @@ base_model = T5ForConditionalGeneration.from_pretrained(checkpoint)
 
 
 def transcribe_video(uploaded_video):
-    video = uploaded_video
+    video = uploaded_video.name
+    with open(video, 'wb') as f:
+        f.write(uploaded_video.getbuffer())
+    
+    # Extract audio using moviepy
+    clip = VideoFileClip(video)
+    audio_path = "temp_audio.wav"
+    clip.audio.write_audiofile(audio_path)
+
+    # Transcribe audio using whisper
     model = whisper.load_model("base")
-    result=model.transcribe("video.mp4")
+    result = model.transcribe(audio_path)
     transcription = result["text"]
+    return transcription
 
 
 def get_transcript(yt_url):
