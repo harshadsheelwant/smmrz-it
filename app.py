@@ -28,15 +28,22 @@ def transcribe_video(uploaded_video):
     video = uploaded_video.name
     with open(video, 'wb') as f:
         f.write(uploaded_video.getbuffer())
-    
+
     # Extract audio using moviepy
     clip = VideoFileClip(video)
     audio_path = "temp_audio.wav"
     clip.audio.write_audiofile(audio_path, logger=None)  # Disable progress bar
 
+    # Convert audio to mp3 using ffmpeg-python
+    try:
+        ffmpeg.input(audio_path).output('output.mp3').run(capture_stdout=True, capture_stderr=True)
+    except ffmpeg._run.Error as e:
+        st.error(f"Error with ffmpeg: {e.stderr.decode()}")
+        return ""
+
     # Transcribe audio using whisper
     model = whisper.load_model("base")
-    result = model.transcribe(audio_path)
+    result = model.transcribe('output.mp3')
     transcription = result["text"]
     return transcription
 
