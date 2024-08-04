@@ -16,6 +16,7 @@ from streamlit_extras.buy_me_a_coffee import button
 from annotated_text import annotated_text, annotation
 from streamlit_pdf_viewer import pdf_viewer
 import whisper
+import imageio_ffmpeg as ffmpeg
 
 os.system('apt-get install -y ffmpeg')
 
