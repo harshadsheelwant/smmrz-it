@@ -135,7 +135,7 @@ def main():
             #     temp_file.write(uploaded_file.read())
             with col1:
                 st.info("Uploaded Video")
-                st.video(video, format="video/mp4")
+                st.video(uploaded_video, format="video/mp4")
                 input_text = transcribe_video(video)
                 input_text = input_text[:5000]
 
