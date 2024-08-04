@@ -17,6 +17,7 @@ from annotated_text import annotated_text, annotation
 from streamlit_pdf_viewer import pdf_viewer
 import whisper
 from moviepy.editor import VideoFileClip
+import ffmpeg
 
 checkpoint = "MBZUAI/LaMini-Flan-T5-248M"
 tokenizer = T5Tokenizer.from_pretrained(checkpoint)
