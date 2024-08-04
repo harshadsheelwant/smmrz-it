@@ -15,11 +15,18 @@ import streamlit_shadcn_ui as ui
 from streamlit_extras.buy_me_a_coffee import button
 from annotated_text import annotated_text, annotation
 from streamlit_pdf_viewer import pdf_viewer
+import whisper
 
 
 checkpoint = "MBZUAI/LaMini-Flan-T5-248M"
 tokenizer = T5Tokenizer.from_pretrained(checkpoint)
 base_model = T5ForConditionalGeneration.from_pretrained(checkpoint)
+
+
+def transcribe_video(uploaded_video):
+    model = whisper.load_model("base")
+    result=model.transcribe("video.mp4")
+    transcription = result["text"]
 
 
 def get_transcript(yt_url):
@@ -117,6 +124,26 @@ def extract_text_from_website(url):
 def main():
     st.title("Summarize-It📄")
     
+
+    uploaded_video = st.file_uploader("Upload your Video(MP4) file", type=['video/mp4'])
+
+    if uploaded_video is not None:
+        if ui.button(text="Summarize Video", key="styled_btn_tailwind_vdo", class_name="bg-orange-500 text-white"):
+            col1, col2 = st.columns(2)
+            video = "data/"+uploaded_file.name
+            # with open(filepath, "wb") as temp_file:
+            #     temp_file.write(uploaded_file.read())
+            with col1:
+                st.info("Uploaded Video")
+                st.video(video, format="video/mp4")
+                input_text = transcribe_video(video)
+                input_text = input_text[:5000]
+
+            with col2:
+                vdo_summary = llm_pipeline(input_text)
+                st.info("Summarization Complete")
+                print(vdo_summary)
+                st.success(vdo_summary)
 
     yt_url=st.text_input('Enter YouTube URL 👇')
 
