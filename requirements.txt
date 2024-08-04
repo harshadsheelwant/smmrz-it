@@ -18,4 +18,5 @@ streamlit-pdf-viewer
 openai-whisper
 jiwer
 moviepy
+ffmpeg-python
 imageio[ffmpeg]
