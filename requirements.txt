@@ -17,3 +17,4 @@ pytube
 streamlit-pdf-viewer
 openai-whisper
 jiwer
+ffmpeg
