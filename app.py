@@ -130,7 +130,7 @@ def main():
     if uploaded_video is not None:
         if ui.button(text="Summarize Video", key="styled_btn_tailwind_vdo", class_name="bg-orange-500 text-white"):
             col1, col2 = st.columns(2)
-            video = "data/"+uploaded_file.name
+            #video = "data/"+uploaded_file.name
             # with open(filepath, "wb") as temp_file:
             #     temp_file.write(uploaded_file.read())
             with col1:
